@@ -64,7 +64,7 @@ Another dataset that is provided is the human dataset (can be downloaded [here](
 
 In the bar chart below the number of dog images and their corresponding breeds can be found for the first 45 breed out of the 133 breeds[3]:
 
-![Dataset visualization](images/dataset_visualization)
+![Dataset visualization](images/data_visualization)
 
 In the above chart, it can be seen that the count of input image across different classes are relatively balanced. Therefore, it can be claimed that we have enough balanced data that is adequate to avoid class imbalance problem. In addition, having such a balanced data will aid the model to distinguish well between different dog breeds as it will have enough "exposure" to each class.
 
@@ -164,7 +164,7 @@ The final solution model I came up with had a testing accuracy of 85%. The first
 ### Free-Form Visualization
 
 ![accurate](images/accurate_prediction)
-![inaccurate](images/inaccurate/prediction)
+![inaccurate](images/inaccurate_prediction)
 
 Above, two sample outputs can be seen from the model. The first output is accurate as the model truly detects a Parson Russel Terrier. However, the second classification is not true as the dog is a Maltese Terrier. Here is an image of a Dandie Dinmont Terrier for a comparison of their visuals[10]:
 

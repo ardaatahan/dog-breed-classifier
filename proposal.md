@@ -33,7 +33,7 @@ The sole evaluation metric I will make use of in this problem is accuracy. Accur
 
 Accuracy is the number of correctly predicted data points out of all the data points. More formally, it is defined as the number of true positives and true negatives divided by the number of true positives, true negatives, false positives, and false negatives.
 
-![Accuracy formula](https://www.google.com.tr/url?sa=i&url=https%3A%2F%2Flawtomated.com%2Ftag%2Flegal-a-i%2F&psig=AOvVaw1JUXCvhF-y0HTQTolc54k-&ust=1596543149391000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCIiI4-2A_-oCFQAAAAAdAAAAABAP)
+![Accuracy formula](https://lawtomated.com/wp-content/uploads/2019/10/Accuracy_2.png)
 
 ### Benchmark Model
 
