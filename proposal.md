@@ -21,6 +21,12 @@ There are two main datasets that are going to be used in this project. Both of t
 
 Firstly, the dog dataset (can be downloaded [here](https://s3-us-west-1.amazonaws.com/udacity-aind/dog-project/dogImages.zip)) consists of 8351 dog images partitioned into 133 different breeds. This is the dataset that is going to be used in order to train, validate, and test the model that is going to be used in order to classify given dog images the model has not seen before as it contains a variety of images of certain breeds that we want to classify. The dataset is divided into training, validation, and test sets. The training set has a total of 6680 different images. The test and validation sets have 836 and 835 images respectively. Each image is of varying size, i.e. there is not any standard size across the dataset. In addition, all images are RGB images so that the input data has 3 different channels one for each color. One limitation to this dataset might be it falls short in providing enough data in order for the model to be able to classify all 339 different breeds in the world.
 
+In the bar chart below the number of dog images and their corresponding breeds can be found for the first 45 breed out of the 133 breeds[2]:
+
+![Dataset visualization](images/data_visualization.png)
+
+In the above chart, it can be seen that the count of input image across different classes are relatively balanced. Therefore, it can be claimed that we have enough balanced data that is adequate to avoid class imbalance problem.
+
 Another dataset that is provided is the human dataset (can be downloaded [here](https://s3-us-west-1.amazonaws.com/udacity-aind/dog-project/lfw.zip)). The human dataset is not relevant for our classification problem. Its role in the overall application is to detect any human faces that is potentially uploaded by the user and prevent the human image to be classified as a dog breed. The human dataset consists of 13233 total human images with a standard size of (250, 250). Like dog images, human images are also RGB.
 
 ### Solution Statement
@@ -29,7 +35,7 @@ As aforementioned, the problem can be seen as a classification problem in the do
 
 ### Evaluation Metrics
 
-The sole evaluation metric I will make use of in this problem is accuracy. Accuracy can be defined as follows[2]:
+The sole evaluation metric I will make use of in this problem is accuracy as the dataset is balanced. Accuracy can be defined as follows[3]:
 
 Accuracy is the number of correctly predicted data points out of all the data points. More formally, it is defined as the number of true positives and true negatives divided by the number of true positives, true negatives, false positives, and false negatives.
 
@@ -67,13 +73,13 @@ Another benchmark result is the one that was provided by Udacity which is 60%. S
 
 1. Human face detector: Here a function that utilizes OpenCV's implementation of Haar feature-based cascade classifiers will be used in order to determine whether an image contains a human face or not.
 
-2. Dog detector: Here a function that utilizes a pretrained VGG16 model is going to output the class index of the image. The model was trained with the ImageNet dataset with over 14 million images[5]. The model outputs 1000 classes however only class indices that are between 151 and 268 (inclusive) signal that a dog is detected in the image, which is enough for the sake of detecting dogs. I will not further train this model, I will only use it in order to detect whether an image contains a dog or not.
+2. Dog detector: Here a function that utilizes a pretrained VGG16 model is going to output the class index of the image. The model was trained with the ImageNet dataset with over 14 million images[4]. The model outputs 1000 classes however only class indices that are between 151 and 268 (inclusive) signal that a dog is detected in the image, which is enough for the sake of detecting dogs. I will not further train this model, I will only use it in order to detect whether an image contains a dog or not.
 
 3. Data augmentation and normalization: I will first load in the data that is separated into training, validation, and test sets. Then the training set is going to have a data augmentation step, which will ideally include random rotations, flips, crops, and also color jitter. Then every image in each set is going to be resized to (224, 224) and converted to tensors and normalized.
 
 4. Dog breed classifier (scratch): In this step I will write my own dog breed classifier model using PyTorch and ConvNets. I will experiment with different architectures and find the one that is the most performant. I will use Udacity's dog dataset in order to train, validate, and test my model.
 
-5. Model selection: Then I will load in a pretrained model, that best suits the problem at hand, available in Pytorch as outlined in the documentation[3].
+5. Model selection: Then I will load in a pretrained model, that best suits the problem at hand, available in Pytorch as outlined in the documentation[5].
 
 6. Model modification: After deciding upon a pretrained model, I will slightly modify the model to tackle the classification problem. More specifically, I will likely freeze the convolutional layers as I do not have enough data to further tune them and it would take a lot of time to do so. I will also modify the final fully connected layer to output 133 different classes instead of the default value. I am planning to only train the fully connected layer in the training stage in order to tune its hyperparameters and increase its accuracy for the classification task.
 
@@ -81,13 +87,15 @@ Another benchmark result is the one that was provided by Udacity which is 60%. S
 
 8. Testing: After the training and validation stage has finished, I will test the accuracy of the model using the test set. If the test accuracy is more than 60% (and surpasses my custom benchmark model) I will consider it as a "successfull" model and most likely not try to further improve it for the sake of this project. Else, if it underperforms, I will experiment with different pretrained convnet architectures and/or further train the convolutional layers.
 
-9. Writing the algorithm: In this step I will write a function that is first going to load the new image and show it to the user. Then, the function is going to determine whether the given input image contains a human or not using a prewritten function that utilizes OpenCV's implementation of Haar feature-based cascade classifiers[4]. If the face belongs to a human, the function will only output the word "Human". Else if the face does not belong to a human, the function then will check if the image belongs to a dog, also utilizing another prewritten function that uses a pretrained VGG16 model to detect dog faces. If the image belongs to a dog, my custom transfer learning model will then take the image as input and output the likelihood of each class. Then the class with the highest likelihood is going to be chosen and the corresponding class label is going to be printed to the user. Else if the image containes neither a human nor a dog, the function is going to print "Neither dog nor human".
+9. Writing the algorithm: In this step I will write a function that is first going to load the new image and show it to the user. Then, the function is going to determine whether the given input image contains a human or not using a prewritten function that utilizes OpenCV's implementation of Haar feature-based cascade classifiers[6]. If the face belongs to a human, the function will only output the word "Human". Else if the face does not belong to a human, the function then will check if the image belongs to a dog, also utilizing another prewritten function that uses a pretrained VGG16 model to detect dog faces. If the image belongs to a dog, my custom transfer learning model will then take the image as input and output the likelihood of each class. Then the class with the highest likelihood is going to be chosen and the corresponding class label is going to be printed to the user. Else if the image containes neither a human nor a dog, the function is going to print "Neither dog nor human".
 
 10. Testing the algorithm: I will provide at least 6 different images that is not in the provided data set and see if the model can predict them accurately.
 
 ### References
 
 1. [Dog breeds](https://www.psychologytoday.com/us/blog/canine-corner/201305/how-many-breeds-dogs-are-there-in-the-world)
-2. [Accuracy](https://deepai.org/machine-learning-glossary-and-terms/accuracy-error-rate#:~:text=Accuracy%20in%20Machine%20Learning&text=Accuracy%20is%20the%20number%20of,false%20positives%2C%20and%20false%20negatives.)
-3. [Pretrained Pytorch models](https://pytorch.org/docs/stable/torchvision/models.html)
-4. [Haar feature-based cascade classifiers](http://docs.opencv.org/trunk/d7/d8b/tutorial_py_face_detection.html)
+2. [Data visualization chart](https://github.com/BayTown/UD-MLND-Dog-Breed-Classifier/blob/master/report.pdf)
+3. [Accuracy](https://deepai.org/machine-learning-glossary-and-terms/accuracy-error-rate#:~:text=Accuracy%20in%20Machine%20Learning&text=Accuracy%20is%20the%20number%20of,false%20positives%2C%20and%20false%20negatives.)
+4. [ImageNet stats](http://www.image-net.org/about-stats)
+5. [Pretrained Pytorch models](https://pytorch.org/docs/stable/torchvision/models.html)
+6. [Haar feature-based cascade classifiers](http://docs.opencv.org/trunk/d7/d8b/tutorial_py_face_detection.html)
